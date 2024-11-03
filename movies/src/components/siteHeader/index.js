@@ -14,7 +14,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
-const SiteHeader = ({ history }) => {
+const SiteHeader = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -26,7 +26,7 @@ const SiteHeader = ({ history }) => {
   const menuOptions = [
     { label: "Home", path: "/" },
     { label: "Favorites", path: "/movies/favorites" },
-    { label: "Option 3", path: "/" },
+    { label: "Upcoming Movies", path: "/movies/upcoming" }, 
     { label: "Option 4", path: "/" },
   ];
 
@@ -77,7 +77,10 @@ const SiteHeader = ({ history }) => {
                   {menuOptions.map((opt) => (
                     <MenuItem
                       key={opt.label}
-                      onClick={() => handleMenuSelect(opt.path)}
+                      onClick={() => {
+                        handleMenuSelect(opt.path);
+                        setAnchorEl(null); // Close menu after selecting an option
+                      }}
                     >
                       {opt.label}
                     </MenuItem>
