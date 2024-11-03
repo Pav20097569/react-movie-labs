@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { getUpcomingMovies } from "../api/tmdb-api";
 import PageTemplate from "../components/templateMovieListPage";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
-
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd'; 
+import { MoviesContext } from '../contexts/moviesContext';
 
 const UpcomingMoviesPage = () => {
-
   const { data, error, isLoading, isError } = useQuery("upcomingMovies", () => getUpcomingMovies(1));
+  const { addToMustWatch } = useContext(MoviesContext); 
 
   if (isLoading) {
     return <Spinner />;
@@ -25,16 +25,16 @@ const UpcomingMoviesPage = () => {
     return <h1>No upcoming movies found.</h1>;
   }
 
-
-  const favorites = movies.filter((m) => m.favorite);
-  localStorage.setItem("favorites", JSON.stringify(favorites));
-  const addToFavorites = (movieId) => true;
-
   return (
     <PageTemplate
       title="Upcoming Movies"
       movies={movies}
-      action={(movie) => <PlaylistAddIcon movie={movie} />}
+      action={(movie) => (
+        <PlaylistAddIcon 
+          onClick={() => addToMustWatch(movie.id)} 
+          style={{ cursor: 'pointer' }} 
+        />
+      )}
     />
   );
 };
