@@ -32,6 +32,10 @@ export const getMovies = () => {
       throw error
    });
   };
+
+
+
+  
   export const getGenres = () => {
     return fetch(
       "https://api.themoviedb.org/3/genre/movie/list?api_key=" +
@@ -123,3 +127,24 @@ export const getMovies = () => {
        throw error;
      });
    };
+
+
+// In tmdb-api.js, add this function to fetch credits for a movie
+
+export const getMovieCredits = ({ queryKey }) => {
+  const [, { id }] = queryKey;  // Extracting the movie ID from the query key
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.REACT_APP_TMDB_KEY}`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        return response.json().then((error) => {
+          throw new Error(error.status_message || "Something went wrong");
+        });
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
