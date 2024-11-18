@@ -48,11 +48,17 @@ const MovieCredits = ({ credits }) => {
     return <p>No cast data available.</p>;
   }
 
+ // Function to handle actor card click and redirect to Google search
+ const handleActorClick = (actorName) => {
+    const query = encodeURIComponent(actorName);
+    window.open(`https://www.google.com/search?q=${query}`, '_blank');
+  };
+
   return (
     <CreditsContainer>
       {credits.cast.slice(0, 10).map((actor) => (
-        <ActorCard key={actor.id}>
-          <ActorImage
+        <ActorCard key={actor.id} onClick={() => handleActorClick(actor.name)}>     
+        <ActorImage
             src={`https://image.tmdb.org/t/p/w200/${actor.profile_path}`}
             alt={actor.name}
           />
