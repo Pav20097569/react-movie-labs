@@ -15,6 +15,7 @@ import PopularMoviesPage from "./pages/popularMoviesPage";
 import TrendingMoviesPage from "./pages/trendingMoviesPage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import AuthForm from "./AuthForm";
 
 
 const queryClient = new QueryClient({
@@ -63,6 +64,7 @@ const App = () => {
     setDarkMode((prev) => !prev);
   };
 
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline /> {/* Reset and apply global theme styles */}
@@ -80,6 +82,7 @@ const App = () => {
               <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
               <Route path="/movies/popular" element={<PopularMoviesPage />} />
               <Route path="/movies/trending" element={<TrendingMoviesPage />} />
+              <Route path="/auth" element={<AuthForm />} />
             </Routes>
           </MoviesContextProvider>
         </BrowserRouter>

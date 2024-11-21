@@ -54,7 +54,7 @@ export default function FilterMoviesCard(props) {
   return (
     <Card 
       sx={{
-        backgroundColor: "rgb(204, 204, 0)"
+        backgroundColor: "rgb(177, 156, 217)"
       }} 
       variant="outlined">
       <CardContent>
