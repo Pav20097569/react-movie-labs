@@ -188,3 +188,69 @@ export const getMovieRecommendations = (movieId) => {
 };
 
 
+export const getSearchResults = (query) => {
+  return fetch(
+    `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&query=${query}`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        return response.json().then((error) => {
+          throw new Error(error.status_message || "Something went wrong");
+        });
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.error("Error fetching search results:", error);
+      throw error;  // Rethrow to be caught by the calling function
+    });
+};
+
+// Fetch actor's movies using actor's id
+export const getActorMovies = ({ queryKey }) => {
+  // Destructure queryKey array properly
+  const [, { actorId, page = 1, perPage = 10 }] = queryKey;  // Extract actorId, page, and perPage from the queryKey array
+
+  return fetch(
+    `https://api.themoviedb.org/3/person/${actorId}/movie_credits?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        return response.json().then((error) => {
+          throw new Error(error.status_message || "Something went wrong");
+        });
+      }
+      return response.json();
+    })
+    .then((data) => {
+      // Paginate the results manually since the TMDB API for movie credits doesn't support server-side pagination
+      const startIndex = (page - 1) * perPage;
+      const paginatedCast = data.cast.slice(startIndex, startIndex + perPage); // Extract the relevant page of results
+
+      return {
+        ...data,
+        cast: paginatedCast, // Replace the full cast list with the paginated results
+        total_pages: Math.ceil(data.cast.length / perPage), // Calculate the total number of pages
+      };
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
+export const getActorDetails = (actorId) => {
+  return fetch(
+    `https://api.themoviedb.org/3/person/${actorId}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        return response.json().then((error) => {
+          throw new Error(error.status_message || "Something went wrong");
+        });
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
+};

@@ -18,6 +18,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AuthForm from "./AuthForm";
 import MovieDetails from "./components/movieDetails";
 import RecommendationsPage from "./pages/RecommendationsPage";
+import ActorMoviesPage from './pages/ActorMoviesPage'; // Import the ActorMoviesPage component
 
 
 
@@ -79,6 +80,7 @@ const App = () => {
               <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
               <Route path="/reviews/:id" element={<MovieReviewPage />} />
               <Route path="/movies/:id" element={<MoviePage />} />
+              <Route path="/actor/:id" element={<ActorMoviesPage />} />  {/* Actor Movies page route */}
               <Route path="/" element={<HomePage />} />
               <Route path="*" element={<Navigate to="/" />} />
               <Route path="/reviews/form" element={<AddMovieReviewPage />} />
@@ -88,6 +90,8 @@ const App = () => {
               <Route path="/movie/:id" element={<MovieDetails />} />
               <Route path="/recommendations/:id" element={<RecommendationsPage />} />  {/* Add this route */}
               <Route path="/auth" element={<AuthForm />} />
+              <Route path="/movies/:id" component={MovieDetails} />
+
             </Routes>
           </MoviesContextProvider>
         </BrowserRouter>
