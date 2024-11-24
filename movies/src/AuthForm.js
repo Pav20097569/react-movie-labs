@@ -31,17 +31,6 @@ const AuthForm = ({ open, onClose }) => {
     }
   };
 
-
-    // Logout function
-    const handleLogout = async () => {
-      try {
-        await signOut(auth);
-        setUser(null);
-      } catch (error) {
-        alert("Logout failed: " + error.message);
-      }
-    };
-
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>{isSignUp ? "Sign Up" : "Login"}</DialogTitle>

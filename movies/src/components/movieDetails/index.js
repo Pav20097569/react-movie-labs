@@ -9,6 +9,8 @@ import Fab from "@mui/material/Fab";
 import Typography from "@mui/material/Typography";
 import MovieReviews from "../movieReviews"
 import Drawer from "@mui/material/Drawer";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";  // To navigate programmatically
 
 
 const root = {
@@ -21,11 +23,16 @@ const root = {
 };
 const chip = { margin: 0.5 };
 
-const MovieDetails = ({ movie }) => {  // Don't miss this!
+const MovieDetails = ({ movie }) => {
+  const navigate = useNavigate();  // Hook for navigation
    
 
   
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const goToRecommendations = () => {
+    navigate(`/recommendations/${movie.id}`);  
+  };
 
   return (
     <>
@@ -73,23 +80,14 @@ const MovieDetails = ({ movie }) => {  // Don't miss this!
                 )}
             </Paper>
 
-      
-      <Fab
-        color="secondary"
-        variant="extended"
-        onClick={() =>setDrawerOpen(true)}
-        sx={{
-          position: 'fixed',
-          bottom: '1em',
-          right: '1em'
-        }}
+            <Button
+        variant="contained"
+        color="primary"
+        onClick={goToRecommendations}  // On click, go to the recommendations page
       >
-        <NavigationIcon />
-        Reviews
-      </Fab>
-      <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-        <MovieReviews movie={movie} />
-      </Drawer>
+        See Recommendations
+      </Button>
+ 
       </>
   );
 };

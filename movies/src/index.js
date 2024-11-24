@@ -16,6 +16,9 @@ import TrendingMoviesPage from "./pages/trendingMoviesPage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import AuthForm from "./AuthForm";
+import MovieDetails from "./components/movieDetails";
+import RecommendationsPage from "./pages/RecommendationsPage";
+
 
 
 const queryClient = new QueryClient({
@@ -82,6 +85,8 @@ const App = () => {
               <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
               <Route path="/movies/popular" element={<PopularMoviesPage />} />
               <Route path="/movies/trending" element={<TrendingMoviesPage />} />
+              <Route path="/movie/:id" element={<MovieDetails />} />
+              <Route path="/recommendations/:id" element={<RecommendationsPage />} />  {/* Add this route */}
               <Route path="/auth" element={<AuthForm />} />
             </Routes>
           </MoviesContextProvider>
