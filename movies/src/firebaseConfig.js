@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
-// Your Firebase configuration
+
 const firebaseConfig = {
   apiKey: "AIzaSyDP5b3F011F0Wh9vaPcBjOvVAqg3SevHzc",
   authDomain: "react-movie-labs-9d14e.firebaseapp.com",
@@ -14,5 +14,4 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// You should export the initialized app, not just the config
 export default app;

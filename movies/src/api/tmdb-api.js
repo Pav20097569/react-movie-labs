@@ -128,9 +128,6 @@ export const getMovies = () => {
      });
    };
 
-
-// In tmdb-api.js, add this function to fetch credits for a movie
-
 export const getMovieCredits = ({ queryKey }) => {
   const [, { id }] = queryKey;  // Extracting the movie ID from the query key
   return fetch(
@@ -224,7 +221,6 @@ export const getActorMovies = ({ queryKey }) => {
       return response.json();
     })
     .then((data) => {
-      // Paginate the results manually since the TMDB API for movie credits doesn't support server-side pagination
       const startIndex = (page - 1) * perPage;
       const paginatedCast = data.cast.slice(startIndex, startIndex + perPage); // Extract the relevant page of results
 
