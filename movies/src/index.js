@@ -18,7 +18,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AuthForm from "./AuthForm";
 import MovieDetails from "./components/movieDetails";
 import RecommendationsPage from "./pages/RecommendationsPage";
-import ActorMoviesPage from './pages/ActorMoviesPage'; // Import the ActorMoviesPage component
+import ActorMoviesPage from './pages/ActorMoviesPage'; 
+import SearchResultsPage from "./pages/searchResultsPage";
 
 
 
@@ -80,7 +81,7 @@ const App = () => {
               <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
               <Route path="/reviews/:id" element={<MovieReviewPage />} />
               <Route path="/movies/:id" element={<MoviePage />} />
-              <Route path="/actor/:id" element={<ActorMoviesPage />} />  {/* Actor Movies page route */}
+              <Route path="/actor/:id" element={<ActorMoviesPage />} />  
               <Route path="/" element={<HomePage />} />
               <Route path="*" element={<Navigate to="/" />} />
               <Route path="/reviews/form" element={<AddMovieReviewPage />} />
@@ -88,9 +89,10 @@ const App = () => {
               <Route path="/movies/popular" element={<PopularMoviesPage />} />
               <Route path="/movies/trending" element={<TrendingMoviesPage />} />
               <Route path="/movie/:id" element={<MovieDetails />} />
-              <Route path="/recommendations/:id" element={<RecommendationsPage />} />  {/* Add this route */}
+              <Route path="/recommendations/:id" element={<RecommendationsPage />} /> 
               <Route path="/auth" element={<AuthForm />} />
               <Route path="/movies/:id" component={MovieDetails} />
+              <Route path="/search/:query" element={<SearchResultsPage />} />
 
             </Routes>
           </MoviesContextProvider>

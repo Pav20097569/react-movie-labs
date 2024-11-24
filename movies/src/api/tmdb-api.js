@@ -188,9 +188,9 @@ export const getMovieRecommendations = (movieId) => {
 };
 
 
-export const getSearchResults = (query) => {
+export const getSearchResults = (query, page = 1) => {
   return fetch(
-    `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&query=${query}`
+    `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&query=${query}&page=${page}`
   )
     .then((response) => {
       if (!response.ok) {
@@ -205,6 +205,7 @@ export const getSearchResults = (query) => {
       throw error;  // Rethrow to be caught by the calling function
     });
 };
+
 
 // Fetch actor's movies using actor's id
 export const getActorMovies = ({ queryKey }) => {

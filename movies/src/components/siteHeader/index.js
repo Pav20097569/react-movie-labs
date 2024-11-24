@@ -9,16 +9,20 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import SearchIcon from "@mui/icons-material/Search";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import AuthForm from "../../AuthForm";
-import app from "../../firebaseConfig"; // Import the initialized Firebase app
+import app from "../../firebaseConfig";
 
 const SiteHeader = ({ darkMode, onThemeToggle }) => {
-  const [user, setUser] = useState(null); // State for the logged-in user
-  const [anchorEl, setAnchorEl] = useState(null); // Menu anchor element
-  const [loginOpen, setLoginOpen] = useState(false); // Dialog visibility state
+  const [user, setUser] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
   const auth = getAuth(app);
@@ -32,18 +36,15 @@ const SiteHeader = ({ darkMode, onThemeToggle }) => {
     { label: "Trending", path: "/movies/trending" },
   ];
 
-  // Handle menu selection
   const handleMenuSelect = (pageURL) => {
     navigate(pageURL, { replace: true });
     setAnchorEl(null);
   };
 
-  // Open the menu
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  // Logout function
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -53,18 +54,23 @@ const SiteHeader = ({ darkMode, onThemeToggle }) => {
     }
   };
 
-  // Handle successful login
   const handleLoginSuccess = () => {
     setUser(auth.currentUser);
   };
 
-  // Listen to the auth state changes (e.g., login/logout)
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/search/${searchQuery}`);
+      setSearchQuery("");
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser); // Update user state whenever auth state changes
+      setUser(currentUser);
     });
 
-    return () => unsubscribe(); // Cleanup listener when component unmounts
+    return () => unsubscribe();
   }, [auth]);
 
   return (
@@ -74,9 +80,29 @@ const SiteHeader = ({ darkMode, onThemeToggle }) => {
           <Typography variant="h4" sx={{ flexGrow: 1 }}>
             TMDB Client
           </Typography>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            All you ever wanted to know about Movies!
-          </Typography>
+
+          {/* Search Bar */}
+          <TextField
+            variant="outlined"
+            size="small"
+            placeholder="Search movies..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && handleSearch()}
+            sx={{
+              marginRight: "20px",
+              backgroundColor: "white",
+              borderRadius: "5px",
+              flexGrow: isMobile ? 1 : 0,
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
 
           {isMobile ? (
             <IconButton
@@ -90,7 +116,11 @@ const SiteHeader = ({ darkMode, onThemeToggle }) => {
             </IconButton>
           ) : (
             menuOptions.map((opt) => (
-              <Button key={opt.label} color="inherit" onClick={() => handleMenuSelect(opt.path)}>
+              <Button
+                key={opt.label}
+                color="inherit"
+                onClick={() => handleMenuSelect(opt.path)}
+              >
                 {opt.label}
               </Button>
             ))
@@ -120,7 +150,11 @@ const SiteHeader = ({ darkMode, onThemeToggle }) => {
       </AppBar>
 
       {/* AuthForm Dialog */}
-      <AuthForm open={loginOpen} onClose={() => setLoginOpen(false)} onLoginSuccess={handleLoginSuccess} />
+      <AuthForm
+        open={loginOpen}
+        onClose={() => setLoginOpen(false)}
+        onLoginSuccess={handleLoginSuccess}
+      />
     </>
   );
 };
